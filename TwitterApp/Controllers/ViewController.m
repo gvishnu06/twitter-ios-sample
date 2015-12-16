@@ -54,6 +54,10 @@
 
 -(void)tweetsUpdated
 {
+    if ([searchManager.tweets count]==0) {
+        [self alertWithTitle:@"Sorry!! No tweets found"];
+        return;
+    }
     _outNoData.hidden = true;
     _outTableView.hidden = false;
     [_outTableView reloadData];
@@ -61,22 +65,17 @@
 
 -(void)searchFailed
 {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Could not fetch any tweets" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction
-                                   actionWithTitle:@"Cancel"
-                                   style:UIAlertActionStyleCancel
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                   }];
-    [alert addAction:cancelAction];
-    [self presentViewController:alert animated:true completion:^{
-        
-    }];
+    [self alertWithTitle:@"Could not fetch any tweets"];
 }
 
 -(void)authenticationFailed
 {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Sorry!! Authentication Failed" preferredStyle:UIAlertControllerStyleAlert];
+    [self alertWithTitle:@"Sorry!! Authentication failed"];
+}
+
+-(void)alertWithTitle :(NSString*)title
+{
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error" message:title preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction
                                    actionWithTitle:@"Cancel"
                                    style:UIAlertActionStyleCancel

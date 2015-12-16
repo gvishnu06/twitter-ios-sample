@@ -71,8 +71,10 @@ static SearchManager* singletonObject;
         NSMutableDictionary* jsonData = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         self.tweets = [jsonData valueForKey:@"statuses"];
         [self.delegate tweetsUpdated];
-        NSTimer* timer;
-        timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(callSearch) userInfo:nil repeats:false];
+        if ([_tweets count]!=0) {
+            NSTimer* timer;
+            timer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(callSearch) userInfo:nil repeats:false];
+        }
     }
 }
 
